@@ -7,9 +7,9 @@ import (
 
 // jsonResponse represents the structure of the JSON response
 type jsonResponse struct {
-	Error   bool   `json:"error"`
-	Message string `json:"message"`
-	Data    any    `json:"data,omitempty"`
+	Error   bool        `json:"error"`
+	Message string      `json:"message"`
+	Data    interface{} `json:"data,omitempty"`
 }
 
 // Broker is the handler function for the broker endpoint
