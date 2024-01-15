@@ -8,20 +8,27 @@ import (
 	"github.com/go-chi/cors"
 )
 
+// routes returns the HTTP handler for the API routes.
 func (app *Config) routes() http.Handler {
-	mux := chi.NewRouter()
+	// Create a new router
+	router := chi.NewRouter()
 
-	// specify who is allowed to connect to the API
-	mux.Use(cors.Handler(cors.Options{
+	// Configure CORS
+	corsOptions := cors.Options{
 		AllowedOrigins:   []string{"https://*", "http://*"},
 		AllowedMethods:   []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
 		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
 		ExposedHeaders:   []string{"Link"},
 		AllowCredentials: true,
 		MaxAge:           300,
-	}))
+	}
+	router.Use(cors.Handler(corsOptions))
 
-	mux.Use(middleware.Heartbeat("/ping"))
+	// Add heartbeat middleware
+	router.Use(middleware.Heartbeat("/ping"))
 
-	return mux
+	// Add the broker handler
+	router.Post("/", app.Broker)
+
+	return router
 }
