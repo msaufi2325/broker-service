@@ -5,13 +5,6 @@ import (
 	"net/http"
 )
 
-// jsonResponse represents the structure of the JSON response
-type jsonResponse struct {
-	Error   bool        `json:"error"`
-	Message string      `json:"message"`
-	Data    interface{} `json:"data,omitempty"`
-}
-
 // Broker is the handler function for the broker endpoint
 func (app *Config) Broker(w http.ResponseWriter, r *http.Request) {
 	// Create a payload with the response data
