@@ -30,5 +30,7 @@ func (app *Config) routes() http.Handler {
 	// Add the broker handler
 	router.Post("/", app.Broker)
 
+	router.Post("/handle", app.HandleSubmission)
+
 	return router
 }
