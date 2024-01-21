@@ -104,10 +104,10 @@ func (app *Config) authenticate(w http.ResponseWriter, a AuthPayload) {
 	defer response.Body.Close()
 
 	// make sure we get back the correct status code
-	if response.StatusCode != http.StatusUnauthorized {
+	if response.StatusCode == http.StatusUnauthorized {
 		app.errorJSON(w, errors.New("invalid credentials"), http.StatusUnauthorized)
 		return
-	} else if response.StatusCode != http.StatusAccepted {
+	} else if response.StatusCode != http.StatusOK {
 		app.errorJSON(w, errors.New("error calling auth service"), http.StatusUnauthorized)
 		return
 	}
