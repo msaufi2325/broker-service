@@ -5,8 +5,6 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
-
-	"golang.org/x/tools/go/analysis/passes/defers"
 )
 
 type RequestPayload struct {
@@ -177,6 +175,14 @@ func (app *Config) sendMail(w http.ResponseWriter, m MailPayload) {
 
 	// make sure we get back the correct status code
 	if response.StatusCode != http.StatusAccepted {
-
+		app.errorJSON(w, errors.New("error calling mail service"), http.StatusUnauthorized)
+		return
 	}
+
+	// send back json
+	var payload jsonResponse
+	payload.Error = false
+	payload.Message = "Mail sent" + m.To
+
+	app.writeJSON(w, http.StatusAccepted, payload)
 }
